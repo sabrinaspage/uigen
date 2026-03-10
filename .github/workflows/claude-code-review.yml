@@ -1,0 +1,33 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Claude PR Review
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Perform a code review of this PR with the following focus areas:
+
+            1. **Code Quality** - Clean code principles, error handling, readability
+            2. **Security** - Potential vulnerabilities, input sanitization, auth logic
+            3. **Performance** - Bottlenecks, inefficient queries, resource issues
+            4. **Testing** - Adequate coverage, edge cases, missing scenarios
+
+            Provide detailed feedback using PR review comments for specific issues.
+            Use a top-level summary comment for general observations.
