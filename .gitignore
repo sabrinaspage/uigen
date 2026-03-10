@@ -53,3 +53,7 @@ next-env.d.ts
 # local tooling config
 .claude/
 .playwright-mcp/
+
+# dev server
+.dev.pid
+logs.txt

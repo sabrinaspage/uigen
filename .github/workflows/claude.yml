@@ -31,10 +31,13 @@ jobs:
           fetch-depth: 1
 
       - name: Project Setup
-        run: |
-          npm run setup
-          npm run dev > logs.txt 2>&1 &
-          npx wait-on http://localhost:3000 --timeout 30000
+        run: npm run setup
+
+      - name: Start dev server
+        run: npm run dev:daemon
+
+      - name: Wait for dev server
+        run: npx wait-on http://localhost:3000 --timeout 30000
 
       - name: Run Claude Code
         id: claude
